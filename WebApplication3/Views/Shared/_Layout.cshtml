@@ -1,0 +1,126 @@
+﻿<link href="~/css/LogIn.css" rel="stylesheet" />
+<link href="~/css/Register.css" rel="stylesheet" />
+<link href="~/css/NavBar.css" rel="stylesheet" />
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebApplication3</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    
+</head>
+<body>
+
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"] - FruitShopWebApp</title>
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </head>
+    <body>
+
+
+        <link href="~/css/animate - Copy.css" rel="stylesheet" />
+        <link href="~/css/NavBar.css" rel="stylesheet" />
+        <nav>
+        <ul>
+            <a class="navbar-brand" href="http://localhost:49410/">Glen Eden Fruit Shop</a>
+
+            <li>
+                <a href="http://localhost:49410/">Home</a>
+            </li>
+            <li>
+                <a href="http://localhost:49410/Speakers/Index">Shop</a>
+            </li>
+            <li>
+                <a href="http://localhost:49410/Home/Location">Location</a>
+            </li>
+            <li>
+                <a href="http://localhost:49410/Home/Contact">Contact</a>
+            </li>
+
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <li class="nav-links dropdown">
+                    <a class="nav-links dropdown-toggle" href="#" data-bs-toggle="dropdown">  Staff Only  </a>
+                    <ul class="dropdown-menu">
+                        
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <li>
+                                @*<a class="dropdown-item" href="#"> Admin &raquo; </a>*@
+                                <ul class="submenu dropdown-menu">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Administration" asp-action="ListRoles">List Roles</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Administration" asp-action="ListUsers">List Users</a></li>
+
+                                </ul>
+                            </li>
+                        }
+                       
+                    </ul>
+                </li>
+            }
+
+        </ul>
+        <ul class="navbar-nav ml-auto">
+        @*If the user is signed-in display Logout link*@
+        @if (SignInManager.IsSignedIn(User))
+            {
+                <li class="nav-item">
+                    <form method="post" asp-controller="account" asp-action="logout">
+                        <button type="submit" style="width:auto"
+                                class="nav-link btn btn-link py-0">
+                            Logout @User.Identity.Name
+                        </button>
+                    </form>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:49410/Account/Register"><i class="far fa-calendar-alt"></i>Sign-Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:49410/Account/Login"><i class="far fa-calendar-alt"></i>Log-In</a>
+                </li>
+            }
+        </ul>
+    </nav>
+
+
+
+        
+
+
+
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+
+
+
+    </body>
+
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/js/NavBar.js"></script>
+</body>
+</html>
